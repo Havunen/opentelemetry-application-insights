@@ -8,6 +8,7 @@ use opentelemetry::{
 use opentelemetry_application_insights::attrs as ai;
 use opentelemetry_sdk::Resource;
 use opentelemetry_semantic_conventions as semcov;
+use reqwest::Client;
 
 fn log() {
     get_active_span(|span| {
@@ -38,7 +39,7 @@ fn main() {
     env_logger::init();
 
     let exporter = opentelemetry_application_insights::Exporter::new_from_env(
-        reqwest::blocking::Client::new(),
+        Client::new(),
     )
     .expect("valid connection string")
     .with_resource_attributes_in_events_and_logs(true);

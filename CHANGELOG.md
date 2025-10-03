@@ -56,7 +56,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
   - If you're using `logs` or `metrics` make sure you use matching combinations of sync/async HTTP clients and runtimes. E.g.:
 
-    - Use `reqwest::blocking::Client` with `.with_batch_exporter(exporter)`. If you're already in an async context, you might need to create the client using `std::thread::spawn(reqwest::blocking::Client::new).join().unwrap()`.
+    - Use `Client` with `.with_batch_exporter(exporter)`. If you're already in an async context, you might need to create the client using `std::thread::spawn(Client::new).join().unwrap()`.
     - Use `reqwest::Client` with `.with_log_processor(opentelemetry_sdk::logs::log_processor_with_async_runtime::BatchLogProcessor::builder(exporter, opentelemetry_sdk::runtime::Tokio).build())`.
 
   - The `db.system` attribute has been deprecated. You can use `db.system.name` going forward, although the deprecated attribute continues to work.
@@ -205,7 +205,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
   The choice of simple/batch span processor as well as the async runtime now needs to be made in Rust code:
 
-  - If you previously used `.install()` with the `reqwest::blocking::Client`, you should now use `.install_simple()`.
+  - If you previously used `.install()` with the `Client`, you should now use `.install_simple()`.
   - If you previously used `.install()` with the `reqwest::Client` and the Tokio runtime, you should now use `.install_batch(opentelemetry::runtime::Tokio)` as well as enable to **opentelemetry/rt-tokio** feature.
   - If you previously used `.install()` with the `surf::Client` and the async-std runtime, you should now use `.install_batch(opentelemetry::runtime::AsyncStd)` as well as enable to **opentelemetry/rt-async-std** feature.
 

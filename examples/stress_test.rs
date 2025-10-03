@@ -80,7 +80,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync + 'static>> {
 
     // Must create blocking client outside the tokio runtime. Batch exporter will spawn a new
     // thread for exporting spans, so client usages will also happen outside the tokio runtime.
-    let client = std::thread::spawn(reqwest::blocking::Client::new)
+    let client = std::thread::spawn(reqwest::Client::new)
         .join()
         .unwrap();
     let exporter = opentelemetry_application_insights::Exporter::new_from_connection_string(

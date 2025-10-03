@@ -8,7 +8,7 @@ use opentelemetry_semantic_conventions as semcov;
 use std::error::Error;
 
 fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
-    let client = reqwest::blocking::Client::new();
+    let client = reqwest::Client::new();
 
     let exporter = opentelemetry_application_insights::Exporter::new_from_env(client)?;
 

@@ -2,7 +2,7 @@
 name = "opentelemetry-application-insights"
 version = "0.43.0"
 authors = ["Jan Kuehle <jkuehle90@gmail.com>"]
-edition = "2018"
+edition = "2024"
 description = "OpenTelemetry exporter for Azure Application Insights"
 readme = "README.md"
 repository = "https://github.com/frigus02/opentelemetry-application-insights"
@@ -36,11 +36,6 @@ metrics = ["opentelemetry_sdk/metrics"]
 logs = ["opentelemetry_sdk/logs"]
 live-metrics = ["trace", "futures-util", "sysinfo", "opentelemetry_sdk/experimental_trace_batch_span_processor_with_async_runtime"]
 internal-logs = ["tracing"]
-# Deprecated features: These don't enable anything in
-# opentelemetry-application-insights. They only enable features in dependency
-# crates.
-reqwest-blocking-client = ["reqwest-client"]
-reqwest-blocking-client-rustls = ["reqwest-client-rustls"]
 reqwest-client = ["opentelemetry-http/reqwest", "reqwest/native-tls"]
 reqwest-client-vendored-tls = ["opentelemetry-http/reqwest", "reqwest/native-tls-vendored"]
 reqwest-client-rustls = ["opentelemetry-http/reqwest", "reqwest/rustls-tls"]
@@ -54,31 +49,31 @@ flate2 = "1"
 futures-util = { version = "0.3", default-features = false, optional = true }
 http = "1"
 once_cell = "1"
-opentelemetry = "0.30"
-opentelemetry-http = "0.30"
-opentelemetry-semantic-conventions = { version = "0.30", features = ["semconv_experimental"] }
-opentelemetry_sdk = "0.30"
-reqwest = { version = "0.12", default-features = false, features = ["blocking"], optional = true }
+opentelemetry = "0.31"
+opentelemetry-http = "0.31"
+opentelemetry-semantic-conventions = { version = "0.31", features = ["semconv_experimental"] }
+opentelemetry_sdk = "0.31"
+reqwest = { version = "0.12", default-features = false, optional = true }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_repr = "0.1"
-sysinfo = { version = "0.36", optional = true }
+sysinfo = { version = "0.37", optional = true }
 thiserror = "2"
-tracing = { version = ">=0.1.40", default-features = false, optional = true }
+tracing = { version = ">=0.1.41", default-features = false, optional = true }
 
 [dev-dependencies]
 doc-comment = "0.3.3"
-env_logger = "0.11.3"
-insta = "1.39.0"
+env_logger = "0.11.8"
+insta = "1.43.2"
 log = { version = "0.4", features = ["kv", "kv_sval"] }
-opentelemetry_sdk = { version = "0.30", features = ["rt-tokio", "rt-tokio-current-thread", "spec_unstable_logs_enabled", "experimental_trace_batch_span_processor_with_async_runtime"] }
-opentelemetry-http = { version = "0.30", features = ["reqwest"] }
-opentelemetry-appender-log = { version = "0.30", features = ["with-serde"] }
+opentelemetry_sdk = { version = "0.31", features = ["rt-tokio", "rt-tokio-current-thread", "spec_unstable_logs_enabled", "experimental_trace_batch_span_processor_with_async_runtime"] }
+opentelemetry-http = { version = "0.31", features = ["reqwest"] }
+opentelemetry-appender-log = { version = "0.31", features = ["with-serde"] }
 rand = "0.9"
-regex = "1.10.5"
-reqwest = { version = "0.12", features = ["blocking"] }
+regex = "1.11.3"
+reqwest = { version = "0.12" }
 test-case = "3.3.1"
-tokio = { version = "1.38.0", features = ["rt-multi-thread", "macros", "process", "time"] }
+tokio = { version = "1.47.1", features = ["rt-multi-thread", "macros", "process", "time"] }
 version-sync = { version = "0.9.5", default-features = false, features = ["html_root_url_updated", "contains_regex"] }
 
 [badges]
@@ -91,10 +86,6 @@ required-features = ["opentelemetry-http/reqwest"]
 [[example]]
 name = "http_client_reqwest"
 required-features = ["opentelemetry_sdk/rt-tokio", "opentelemetry-http/reqwest", "opentelemetry_sdk/experimental_trace_batch_span_processor_with_async_runtime"]
-
-[[example]]
-name = "http_client_reqwest_blocking"
-required-features = ["opentelemetry-http/reqwest"]
 
 [[example]]
 name = "live_metrics"

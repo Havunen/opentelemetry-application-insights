@@ -2,6 +2,7 @@ use opentelemetry::{global, KeyValue};
 use opentelemetry_sdk::metrics::{PeriodicReader, SdkMeterProvider};
 use rand::{rng, Rng};
 use std::{error::Error, time::Duration};
+use reqwest::Client;
 
 fn main() -> Result<(), Box<dyn Error>> {
     env_logger::init();
@@ -9,7 +10,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let connection_string = std::env::var("APPLICATIONINSIGHTS_CONNECTION_STRING").unwrap();
     let exporter = opentelemetry_application_insights::Exporter::new_from_connection_string(
         connection_string,
-        reqwest::blocking::Client::new(),
+        Client::new(),
     )
     .expect("valid connection string");
     let reader = PeriodicReader::builder(exporter)

@@ -15,12 +15,13 @@ Configure a OpenTelemetry pipeline using the Application Insights exporter and s
 ```rust,no_run
 use opentelemetry::{global, trace::Tracer};
 use opentelemetry_sdk::trace::SdkTracerProvider;
+use reqwest::Client;
 
 fn main() {
     let connection_string = std::env::var("APPLICATIONINSIGHTS_CONNECTION_STRING").unwrap();
     let exporter = opentelemetry_application_insights::Exporter::new_from_connection_string(
         connection_string,
-        reqwest::blocking::Client::new(),
+        Client::new(),
     )
     .expect("valid connection string");
     let tracer_provider = SdkTracerProvider::builder()

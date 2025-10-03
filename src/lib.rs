@@ -14,12 +14,13 @@
 //! ```no_run
 //! use opentelemetry::{global, trace::Tracer};
 //! use opentelemetry_sdk::trace::SdkTracerProvider;
+//! use reqwest::Client;
 //!
 //! fn main() {
 //!     let connection_string = std::env::var("APPLICATIONINSIGHTS_CONNECTION_STRING").unwrap();
 //!     let exporter = opentelemetry_application_insights::Exporter::new_from_connection_string(
 //!         connection_string,
-//!         reqwest::blocking::Client::new(),
+//!         Client::new(),
 //!     )
 //!     .expect("valid connection string");
 //!     let tracer_provider = SdkTracerProvider::builder()
@@ -42,13 +43,14 @@
 //! use log::{Level, info};
 //! use opentelemetry_appender_log::OpenTelemetryLogBridge;
 //! use opentelemetry_sdk::logs::SdkLoggerProvider;
+//! use reqwest::Client;
 //!
 //! fn main() {
 //!     // Setup exporter
 //!     let connection_string = std::env::var("APPLICATIONINSIGHTS_CONNECTION_STRING").unwrap();
 //!     let exporter = opentelemetry_application_insights::Exporter::new_from_connection_string(
 //!         connection_string,
-//!         reqwest::blocking::Client::new(),
+//!         Client::new(),
 //!     )
 //!     .expect("valid connection string");
 //!     let logger_provider = SdkLoggerProvider::builder()
@@ -76,13 +78,14 @@
 //! use opentelemetry::global;
 //! use opentelemetry_sdk::metrics::{PeriodicReader, SdkMeterProvider};
 //! use std::time::Duration;
+//! use reqwest::Client;
 //!
 //! fn main() {
 //!     // Setup exporter
 //!     let connection_string = std::env::var("APPLICATIONINSIGHTS_CONNECTION_STRING").unwrap();
 //!     let exporter = opentelemetry_application_insights::Exporter::new_from_connection_string(
 //!         connection_string,
-//!         reqwest::blocking::Client::new(),
+//!         Client::new(),
 //!     )
 //!     .expect("valid connection string");
 //!     let reader = PeriodicReader::builder(exporter).build();
@@ -121,13 +124,14 @@ Sample telemetry is not supported, yet.
 ```no_run
 use opentelemetry::{global, trace::Tracer};
 use opentelemetry_sdk::trace::SdkTracerProvider;
+use reqwest::Client;
 
 #[tokio::main]
 async fn main() {
     let connection_string = std::env::var("APPLICATIONINSIGHTS_CONNECTION_STRING").unwrap();
     let exporter = opentelemetry_application_insights::Exporter::new_from_connection_string(
         connection_string,
-        reqwest::blocking::Client::new(),
+        Client::new(),
     )
     .expect("valid connection string");
     let tracer_provider = SdkTracerProvider::builder()
@@ -151,23 +155,14 @@ async fn main() {
 //! for:
 //!
 //! - [`reqwest`]: enable the **opentelemetry-http/reqwest** feature and configure the exporter
-//!   with either `with_client(reqwest::Client::new())` or
-//!   `with_client(reqwest::blocking::Client::new())`.
+//!   with `with_client(reqwest::Client::new())`
 //! - and more...
 //!
 //! [`opentelemetry-http`]: https://crates.io/crates/opentelemetry-http
 //! [`reqwest`]: https://crates.io/crates/reqwest
 //! [`tokio`]: https://crates.io/crates/tokio
 //!
-//! Alternatively you can bring any other HTTP client by implementing the `HttpClient` trait.
-//!
-//! Map async/sync clients with the appropriate builder methods:
-//!
-//! - Sync clients with `{SdkTracerProvider,SdkLoggerProvider}.with_batch_exporter`/`PeriodicReader::builder`. If you're already in an
-//! async context when creating the client, you might need to create it using
-//! `std::thread::spawn(reqwest::blocking::Client::new).join().unwrap()`.
-//! - Async clients with the corresponding experimental async APIs. _Or_ with the pipeline API and
-//! `build_batch`/`install_batch`.
+//! Alternatively, you can bring any other HTTP client by implementing the `HttpClient` trait.
 //!
 //! # Attribute mapping
 //!
